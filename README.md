@@ -211,7 +211,8 @@ vars:
   # Copy, download and s3 have an optional step to unarchive the downloaded file which can be used by adding _unarchive. 
   # The rsync_direct strategy omits a file copy on the target offering a slight speed increase if you are deploying to shared hosts, are experiancing bad file-performance, or serve static assets from the same host you deploy your app to and rsync many files.
   # You can check all the options inside tasks/update-code folder!
-  
+  ansistrano_git_recursive: true
+  # Allow to avoid git submodules been pulled/init while git clone/git pull 
   ansistrano_allow_anonymous_stats: yes
 
   # Variables used in the rsync/rsync_direct deployment strategy

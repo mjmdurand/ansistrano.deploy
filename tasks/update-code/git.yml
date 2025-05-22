@@ -22,6 +22,7 @@
     accept_hostkey: true
     update: yes
     force: yes
+    recursive: "{{ ansistrano_git_recursive | default(omit) }}"
     ssh_opts: "{{ ansistrano_git_ssh_opts | default(omit) }}"
     refspec: "{{ ansistrano_git_refspec | default(omit) }}"
     depth: "{{ ansistrano_git_depth | default(omit) }}"
@@ -37,6 +38,7 @@
     accept_hostkey: true
     update: yes
     force: yes
+    recursive: "{{ ansistrano_git_recursive | default(omit) }}"
     ssh_opts: "{{ ansistrano_git_ssh_opts | default(omit) }}"
     refspec: "{{ ansistrano_git_refspec | default(omit) }}"
     depth: "{{ ansistrano_git_depth | default(omit) }}"
