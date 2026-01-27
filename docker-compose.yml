@@ -1,0 +1,46 @@
+services:
+  ansistrano:
+    container_name: ansistrano
+    build:
+      context: .docker/ansible
+      dockerfile: Dockerfile
+    command: ["sleep", "infinity"]
+    volumes:
+      - .:/app/
+      - ${XDG_RUNTIME_DIR}/docker.sock:/var/run/docker.sock:ro
+  
+  amazonlinux:
+    container_name: ansistrano_amazonlinux
+    build:
+      context: .docker/amazonlinux
+      dockerfile: Dockerfile
+
+  debian:
+    container_name: ansistrano_debian
+    build:
+      context: .docker/debian
+      dockerfile: Dockerfile
+
+  fedora:
+    container_name: ansistrano_fedora
+    build:
+      context: .docker/fedora
+      dockerfile: Dockerfile
+
+  opensuse:
+    container_name: ansistrano_opensuse
+    build:
+      context: .docker/opensuse
+      dockerfile: Dockerfile
+
+  rockylinux:
+    container_name: ansistrano_rockylinux
+    build:
+      context: .docker/rockylinux
+      dockerfile: Dockerfile
+
+  ubuntu:
+    container_name: ansistrano_ubuntu
+    build:
+      context: .docker/ubuntu
+      dockerfile: Dockerfile
