@@ -16,6 +16,7 @@
     (ansistrano_unarchive_owner != "default" and ansistrano_unarchive_group == "default")
 
 - name: ANSISTRANO | Unarchive | Unarchive source with owner and group
+  become: yes
   unarchive:
     copy: no
     src: "{{ ansistrano_archived_file }}"

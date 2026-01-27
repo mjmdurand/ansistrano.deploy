@@ -1,11 +1,12 @@
 ---
 - name: Basic setup for Ansible to run properly
   hosts: all
+  become: yes
 
   pre_tasks:
     - name: Update apt cache.
       command: apt -y update
-      when: update_cache is defined and ansible_os_family == 'Debian'
+      when: update_cache is defined and ansible_facts['os_family'] == 'Debian'
 
   tasks:
 
@@ -14,7 +15,7 @@
       command: /usr/bin/env ansible --version
 
     - name: Install Required Packages For Debian
-      when: ansible_os_family == 'Debian'
+      when: ansible_facts['os_family'] == 'Debian'
       apt:
         name:
           - rsync
@@ -27,7 +28,7 @@
         state: present
 
     - name: Install Required Packages For Redhat
-      when: ansible_os_family == 'RedHat'
+      when: ansible_facts['os_family'] == 'RedHat'
       yum:
         name:
           - rsync

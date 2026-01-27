@@ -56,11 +56,13 @@
     - { role: local-ansistrano }
   pre_tasks:
     - name: Create group to use in the test
+      become: yes
       group:
         name: unarchive_group
         state: present
 
     - name: Create user to use in the test
+      become: yes
       user:
         name: unarchive_user
         uid: 6666

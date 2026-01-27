@@ -17,7 +17,7 @@
   hosts: all
   vars:
     ansistrano_deploy_via: "svn"
-    ansistrano_svn_repo: https://github.com/ansistrano/deploy.git
+    ansistrano_svn_repo: https://svn.apache.org/repos/asf/apr/apr
     ansistrano_deploy_to: "/tmp/svn/my-app.com"
   roles:
     - { role: local-ansistrano }
@@ -39,7 +39,7 @@
   hosts: all
   vars:
     ansistrano_deploy_via: "svn"
-    ansistrano_svn_repo: https://github.com/ansistrano/deploy.git
+    ansistrano_svn_repo: https://svn.apache.org/repos/asf/apr/apr
     ansistrano_deploy_to: "/tmp/svn/my-app.com"
   roles:
     - { role: local-ansistrano }

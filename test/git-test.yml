@@ -192,7 +192,7 @@
     ansistrano_git_branch: master
     ansistrano_git_repo_tree: foo
     ansistrano_deploy_to: "/tmp/git/my-app.com"
-    ansistrano_git_identity_key_remote_path_local_test: "{{ ansible_env.PWD }}/deploy.key"
+    ansistrano_git_identity_key_remote_path_local_test: "{{ ansible_facts['env'].PWD }}/deploy.key"
     ansistrano_git_identity_key_remote_path_docker_test: "/etc/ansible/roles/role_under_test/test/deploy.key"
     ansistrano_git_identity_key_remote_path: "{{ (lookup('env', 'ANSIBLE_VERSION') == 'docker') | ternary(ansistrano_git_identity_key_remote_path_docker_test, ansistrano_git_identity_key_remote_path_local_test) }}"
   pre_tasks:
