@@ -15,18 +15,22 @@ RUN yum update -y \
     mercurial \
     python3 \
     python3-pip \
-    sudo \
-    wget \
-    && pip3 install --no-cache-dir ansible==$ANSIBLE_VERSION \
+    wget \    
     && yum clean all \
     && rm -rf /var/cache/yum/* \
-    && useradd -m -s /bin/bash ansistrano \
-    && echo "ansistrano:ansistrano" | chpasswd \
-    && echo "ansistrano ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
-    && wget -O /home/ansistrano/deploy.key \
+    && ssh-keygen -A \
+    && sed -i.bak 's/^[#[:space:]]*PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config \
+    && sed -i.bak 's/^[#[:space:]]*PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config \
+    && pip3 install --no-cache-dir ansible==$ANSIBLE_VERSION \
+    && mkdir -p /run/sshd /root/.ssh \
+    && wget -O /root/deploy.key \
        https://raw.githubusercontent.com/mjmdurand/ansistrano.deploy/mdurand/WIP/test/deploy.key \
-    && chmod 600 /home/ansistrano/deploy.key \
-    && chown ansistrano:ansistrano /home/ansistrano/deploy.key
+    && wget -O /root/.ssh/authorized_keys \
+       https://raw.githubusercontent.com/mjmdurand/ansistrano.deploy/mdurand/WIP/test/deploy.pub \
+    && chmod 600 /root/deploy.key /root/.ssh/authorized_keys \
+    && chmod 700 /root/.ssh
+
+COPY sshd /etc/pam.d/sshd
 
 EXPOSE 22
 ENTRYPOINT ["/usr/sbin/sshd", "-D"]
