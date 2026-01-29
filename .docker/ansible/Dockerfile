@@ -17,7 +17,7 @@ RUN mkdir -p /root/.ssh /etc/ansible \
     && pip install --upgrade pip \
     && pip install --no-cache-dir ansible==$ANSIBLE_VERSION \
     && pip install --no-cache-dir -r /tmp/requirements.txt \
-    && ansible-galaxy collection install community.general ansible.posix
+    && ansible-galaxy collection install community.general
 
 COPY conf/ansible.cfg /etc/ansible/ansible.cfg
 
