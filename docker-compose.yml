@@ -2,7 +2,7 @@ services:
   ansistrano:
     container_name: ansistrano
     build:
-      context: .docker/ansible
+      context: .docker/ansistrano
       dockerfile: Dockerfile
     command: ["sleep", "infinity"]
     volumes:

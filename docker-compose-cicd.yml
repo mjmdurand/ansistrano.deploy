@@ -1,0 +1,24 @@
+services:
+  ansistrano:
+    image: ghcr.io/mjmdurand/ansistrano:ansistrano
+    container_name: ansistrano
+    command: ["sleep", "infinity"]
+    volumes:
+      - .:/app/  
+  amazonlinux:
+    image: ghcr.io/mjmdurand/ansistrano:amazonlinux
+
+  debian:
+    image: ghcr.io/mjmdurand/ansistrano:debian
+
+  fedora:
+    image: ghcr.io/mjmdurand/ansistrano:fedora
+
+  opensuse:
+    image: ghcr.io/mjmdurand/ansistrano:opensuse
+
+  rockylinux:
+    image: ghcr.io/mjmdurand/ansistrano:rockylinux
+
+  ubuntu:
+    image: ghcr.io/mjmdurand/ansistrano:ubuntu

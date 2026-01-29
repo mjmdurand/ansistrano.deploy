@@ -1,0 +1,50 @@
+name: Test_Ansistrano
+
+on:
+  push:
+    branches: [ main, mdurand/WIP ]
+    paths:
+      - 'test/**'   # Trigger immédiat si seulement test/ change
+  workflow_run:
+    workflows:
+      - Build_Ansistrano_Docker_Images
+    types:
+      - completed   # Trigger après build si build a eu lieu
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: mjmdurand/ansistrano
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        task:
+          - setup
+          - rsync-test
+          - rsync_direct-test
+          - git-test
+          - download-test
+          - svn-test
+          - hg-test
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Start containers
+        run: docker compose -f docker-compose-cicd.yml up -d
+
+      - name: Run Ansible test
+        run: |
+          echo "Running test ${{ matrix.task }} ..."
+          docker exec ansistrano ansible-playbook /app/test/${{ matrix.task }}.yml -i /app/test/hosts.yml

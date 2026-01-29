@@ -1,0 +1,66 @@
+name: Build_Ansistrano_Docker_Images
+
+on:
+  push:
+    branches: [ main, mdurand/WIP ]
+    paths:
+      - '.docker/**'
+  pull_request:
+    paths:
+      - '.docker/**'
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAMESPACE: mjmdurand/ansistrano
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - name: ansistrano
+            ansible_version: 13.1.0
+            python_version: 3.14
+          - name: amazonlinux
+            ansible_version: 8.7.0
+            python_version: 3.9
+          - name: debian
+            ansible_version: 13.1.0
+            python_version: 3.13
+          - name: fedora
+            ansible_version: 13.1.0
+            python_version: 3.12
+          - name: opensuse
+            ansible_version: 13.1.0
+            python_version: 3.13
+          - name: rockylinux
+            ansible_version: 8.7.0
+            python_version: 3.9
+          - name: ubuntu
+            ansible_version: 13.1.0
+            python_version: 3.12
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build & push image
+        run: |
+          OS_NAME=$(echo "${{ matrix.os.name }}" | tr '[:upper:]' '[:lower:]')
+          docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}:${OS_NAME} \
+            -f .docker/${{ matrix.os.name }}/Dockerfile \
+            --build-arg ANSIBLE_VERSION=${{ matrix.os.ansible_version }} \
+            --build-arg PYTHON_VERSION=${{ matrix.os.python_version }} \
+            .docker/${{ matrix.os.name }}
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAMESPACE }}:${OS_NAME}

@@ -1,5 +1,6 @@
 FROM python:3.14-alpine
 ARG ANSIBLE_VERSION=13.1.0
+ARG PYTHON_VERSION=3.14
 
 COPY conf/requirements.txt /tmp/requirements.txt
 
