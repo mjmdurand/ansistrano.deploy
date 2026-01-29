@@ -10,6 +10,7 @@ on:
       - Build_Ansistrano_Docker_Images
     types:
       - completed   # Trigger après build si build a eu lieu
+    branches: [ main, mdurand/WIP ]
   workflow_dispatch:
 
 env:
